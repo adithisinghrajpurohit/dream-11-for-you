@@ -12,6 +12,13 @@
       box-sizing: border-box;
     }
 
+    html,
+    body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
     body {
       margin: 0;
       -webkit-text-size-adjust: 100%;
@@ -23,11 +30,7 @@
       color: #f8fafc;
       min-height: 100vh;
       min-height: 100dvh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       padding: 20px;
-      overflow-x: hidden;
       overflow-y: auto;
     }
 
@@ -43,6 +46,7 @@
       padding: 30px 30px 24px;
       text-align: center;
       isolation: isolate;
+      margin: 20px auto;
     }
 
     .coin {
@@ -344,7 +348,6 @@
 
     @media (max-width: 560px) {
       body {
-        align-items: flex-start;
         padding: 12px;
       }
 
