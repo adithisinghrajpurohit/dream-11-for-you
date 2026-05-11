@@ -14,6 +14,7 @@
 
     body {
       margin: 0;
+      -webkit-text-size-adjust: 100%;
       font-family: "Segoe UI", Arial, sans-serif;
       background:
         radial-gradient(circle at 15% 15%, rgba(253, 224, 71, 0.26), transparent 32%),
@@ -21,11 +22,13 @@
         linear-gradient(160deg, #0b1020, #111827 55%, #1f2937);
       color: #f8fafc;
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     .hero {
@@ -55,6 +58,7 @@
       font-size: 1.5rem;
       animation: float 3.8s ease-in-out infinite;
       z-index: -1;
+      pointer-events: none;
     }
 
     .coin.one {
@@ -339,12 +343,79 @@
     }
 
     @media (max-width: 560px) {
+      body {
+        align-items: flex-start;
+        padding: 12px;
+      }
+
       .hero {
+        margin: 8px 0;
         padding: 22px 16px;
+        border-radius: 18px;
+      }
+
+      .topbar {
+        justify-content: center;
+      }
+
+      .chip {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+      }
+
+      .offer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta {
+        width: 100%;
+      }
+
+      .trust {
+        gap: 8px;
+      }
+
+      .powered {
+        flex-wrap: wrap;
+      }
+
+      .status-message {
+        min-height: 64px;
+        font-size: 0.84rem;
       }
 
       .coin {
         opacity: 0.75;
+      }
+
+      .coin.two,
+      .coin.four {
+        display: none;
+      }
+
+      .modal-overlay {
+        align-items: flex-end;
+        padding: 10px;
+      }
+
+      .modal {
+        max-height: 88dvh;
+        overflow-y: auto;
+        border-radius: 14px 14px 10px 10px;
+      }
+
+      .modal-actions {
+        justify-content: stretch;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .coin {
+        animation: none;
       }
     }
   </style>
